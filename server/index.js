@@ -23,12 +23,22 @@ app.get("/api/get" ,(rec,res) => {
 });
 app.post("/api/insert",(req,res) => {
 
-    const movieName = req.body.movieName
-    const movieReview = req.body.movieReview
+    const movieName = req.body.movieName;
+    const movieReview = req.body.movieReview;
 
     const sqlInsert = "INSERT INTO MovieReviews(MovieName , MovieReview) VALUES (?,?)"
     db.query(sqlInsert,[movieName , movieReview] , (err,result) => {
         res.send(result);
+    });
+});
+
+app.put("/api/update",(req,res) => {
+    const movieName = req.body.movieName;
+    const movieReview = req.body.movieReview;
+
+    const sqlUpdate = "UPDATE MovieReviews set MovieReview = ? where MovieName= ?;"
+    db.query(sqlUpdate,[movieReview,movieName],(err,result) => {
+        if(err)console.log(err);
     });
 });
 

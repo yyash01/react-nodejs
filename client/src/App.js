@@ -6,6 +6,7 @@ function App() {
   const [movieName , setMovieName] = useState("");
   const [review , setReview] = useState("");          //review - variable is taken from frontend 
   const [MovieList , setMovieList] = useState([]);
+  const [newReview , setnewReview] = useState("");
 
 
   function handleName(event) {
@@ -14,6 +15,10 @@ function App() {
 
   function handleReview(event) {
     setReview(event.target.value);
+  }
+
+  function updatedReview(event) {
+    setnewReview(event.target.value);
   }
 
   useEffect(()=>{
@@ -40,6 +45,14 @@ function App() {
     Axios.delete(`http://localhost:3001/api/delete/${movie}`);
   }
 
+  const UpdateReview = (movie) => {
+    Axios.put("http://localhost:3001/api/update",{
+      movieName: movie,
+      movieReview: newReview
+    });
+    setnewReview("");
+  }
+
   return (
     <div className="App">
       <h1>CRUD Application</h1>
@@ -57,8 +70,8 @@ function App() {
             <p>{val.MovieReview}</p>
 
             <button onClick={() => {deleteReview(val.MovieName)}}>Delete</button>
-            <input type="text"/>
-            <button>Update</button>
+            <input type="text" onChange = {updatedReview}/>
+            <button onClick={() =>{UpdateReview(val.MovieName)}}>Update</button>
           </div>
           );
         })
